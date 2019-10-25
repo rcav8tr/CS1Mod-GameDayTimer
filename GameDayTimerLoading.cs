@@ -5,8 +5,10 @@ using System;
 
 namespace GameDayTimer
 {
-    // Note:  a new instance of GameDayTimerLoading is NOT created when loading a game from the Pause Menu
-
+    /// <summary>
+    /// handle game loading and unloading
+    /// </summary>
+    /// <remarks>A new instance of GameDayTimerLoading is NOT created when loading a game from the Pause Menu.</remarks>
     public class GameDayTimerLoading : LoadingExtensionBase
     {
         public override void OnLevelLoaded(LoadMode mode)
