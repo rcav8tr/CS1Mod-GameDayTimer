@@ -7,7 +7,7 @@ namespace GameDayTimer
         public string Name => "Game Day Timer";
         public string Description => "Display real time duration of one game day and frames per second (FPS)";
 
-        // the panel to display the timings, gets created in GameDayTimerLoading
+        // the panel to display things, gets created in GameDayTimerLoading
         public static GameDayTimerPanel Panel;
         
         public void OnSettingsUI(UIHelperBase helper)

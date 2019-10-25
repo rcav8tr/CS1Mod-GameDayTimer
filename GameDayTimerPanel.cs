@@ -66,6 +66,11 @@ namespace GameDayTimer
                 GameDayTimerConfiguration config = Configuration<GameDayTimerConfiguration>.Load();
                 MovePanelToPosition(config.PanelPositionX, config.PanelPositionY);
 
+                // set up mouse event handlers for dragging the panel
+                eventMouseDown += GameDayTimerPanel_eventMouseDown;
+                eventMouseMove += GameDayTimerPanel_eventMouseMove;
+                eventMouseUp += GameDayTimerPanel_eventMouseUp;
+
                 // set position and size for labels
                 const float LabelLeft = 8f;     // all labels have same left position, but value labels are right justified
                 const float LabelTop = 4f;      // top of topmost labels
@@ -128,11 +133,6 @@ namespace GameDayTimer
                 FramesPerSecValue.width = LabelWidth;
                 FramesPerSecValue.height = LabelHeight;
 
-                // set up mouse event handlers for dragging the panel
-                eventMouseDown += GameDayTimerPanel_eventMouseDown;
-                eventMouseMove += GameDayTimerPanel_eventMouseMove;
-                eventMouseUp += GameDayTimerPanel_eventMouseUp;
-
                 // initialize timing things
                 GDTTotalTimeInDay = 0;
                 GDTPreviousTotalTimeInDayText = "xx";
@@ -144,9 +144,8 @@ namespace GameDayTimer
                 // wait for a day change
                 WaitForDayChange();
 
-                // show the panel
-                // to hide the panel, turn off the mod
-                Show();
+                // show or hide the panel according to the config
+                isVisible = config.PanelIsVisible;
             }
             catch (Exception ex)
             {
