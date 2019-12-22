@@ -19,7 +19,7 @@ namespace GameDayTimer
             try
             {
                 // check for new or loaded game
-                if (mode == LoadMode.NewGame || mode == LoadMode.LoadGame)
+                if (mode == LoadMode.NewGame || mode == LoadMode.LoadGame || mode == LoadMode.NewGameFromScenario)
                 {
                     // destroy the panel if a previous instance exists
                     if (GameDayTimer.Panel != null)
