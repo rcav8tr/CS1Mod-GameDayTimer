@@ -1,6 +1,9 @@
 ﻿using ColossalFramework.UI;
 using UnityEngine;
 using System;
+using ColossalFramework;
+using ColossalFramework.Plugins;
+using static ColossalFramework.Plugins.PluginManager;
 
 namespace GameDayTimer
 {
@@ -43,6 +46,9 @@ namespace GameDayTimer
         Color32 ColorYellow = new Color32(255, 255, 0, 255);
         Color32 ColorWhite = new Color32(255, 255, 255, 255);
 
+        // whether or not the Real Time mod is enabled
+        private bool RealTimeModEnabled = false;
+
         /// <summary>
         /// Start is called after the panel is created in Loading
         /// set up and populate the panel
@@ -56,8 +62,8 @@ namespace GameDayTimer
             {
                 // set panel properties
                 name = "GameDayTimerPanel";
-                width = 140;
-                height = 68;
+                width = 150f;
+                height = 68f;
                 backgroundSprite = "MenuPanel2";
                 canFocus = true;
                 opacity = 0.75f;
@@ -141,8 +147,31 @@ namespace GameDayTimer
                 GDTPreviousRealTime = GetCurrentRealTime();
                 FPSPreviousRealTime = GetCurrentRealTime();
 
-                // wait for a day change
-                WaitForDayChange();
+                // determine if Real Time mod is enabled
+                foreach (PluginInfo mod in Singleton<PluginManager>.instance.GetPluginsInfo())
+                {
+                    // ignore builtin mods and camera script
+                    if (!mod.isBuiltin && !mod.isCameraScript)
+                    {
+                        // check against the Real Time workshop ID
+                        if (mod.publishedFileID.AsUInt64 == 1420955187)
+                        {
+                            RealTimeModEnabled = mod.isEnabled;
+                            break;
+                        }
+                    }
+                }
+
+                if (RealTimeModEnabled)
+                {
+                    // don't wait for a day change
+                    GDTFirstDayChanged = true;
+                }
+                else
+                {
+                    // wait for a day change
+                    WaitForDayChange();
+                }
 
                 // show or hide the panel according to the config
                 isVisible = config.PanelIsVisible;
@@ -174,9 +203,14 @@ namespace GameDayTimer
                     int SimSpeed = SimulationManager.instance.SelectedSimulationSpeed;
                     if (SimSpeed != GDTPreviousSimSpeed)
                     {
-                        // sim speed changed, wait for day to change before starting game day timings again
+                        // sim speed changed, save new sim speed
                         GDTPreviousSimSpeed = SimSpeed;
-                        WaitForDayChange();
+
+                        // if Real time mod is not enabled, wait for day to change before starting game day timings again
+                        if (!RealTimeModEnabled)
+                        {
+                            WaitForDayChange();
+                        }
                     }
                     else
                     {
@@ -186,8 +220,8 @@ namespace GameDayTimer
                         // if first day has changed, then show current day running total
                         if (GDTFirstDayChanged)
                         {
-                            // show current day total only when it changes to resolution of 0.1 seconds
-                            string GDTTotalTimeInDayText = GDTTotalTimeInDay.ToString("0.0");
+                            // show current day total only when it changes
+                            string GDTTotalTimeInDayText = FormatGameDayTime(GDTTotalTimeInDay);
                             if (GDTTotalTimeInDayText != GDTPreviousTotalTimeInDayText)
                             {
                                 CurrentDayValue.text = GDTTotalTimeInDayText;
@@ -208,7 +242,7 @@ namespace GameDayTimer
                             // display only on second and subsequent day changes 
                             if (GDTFirstDayChanged)
                             {
-                                PreviousDayValue.text = GDTTotalTimeInDay.ToString("0.0");
+                                PreviousDayValue.text = FormatGameDayTime(GDTTotalTimeInDay);
 
                                 // set color based on sim speed and elapsed time
                                 Color32 color = GetGameDayTimeColor(SimSpeed, GDTTotalTimeInDay);
@@ -263,28 +297,52 @@ namespace GameDayTimer
         }
 
         /// <summary>
+        /// format the game time
+        /// </summary>
+        private string FormatGameDayTime(double gameDayTime)
+        {
+            if (RealTimeModEnabled)
+            {
+                // format as MM:SS
+                int minutes = (int)(gameDayTime / 60);
+                int seconds = (int)gameDayTime - minutes * 60;
+                return minutes.ToString("00") + ":" + seconds.ToString("00");
+            }
+            else
+            {
+                // format as 0.0
+                return gameDayTime.ToString("0.0");
+            }
+        }
+
+        /// <summary>
         /// Get the color associated with the sim speed and elapsed time
         /// </summary>
-        /// <param name="SimSpeed"></param>
-        /// <param name="ElapsedTime"></param>
-        /// <returns></returns>
         private Color32 GetGameDayTimeColor(int SimSpeed, double ElapsedTime)
         {
-            // define standard elapsed time based on the speed
-            double StandardElapsedTime;
-            if (SimSpeed == 1) StandardElapsedTime = 10.0;
-            else if (SimSpeed == 2) StandardElapsedTime = 5.0;
-            else StandardElapsedTime = 2.5;
-
-            // compute the multiple of elapsed time to standard time
-            double TimeMultiple = ElapsedTime / StandardElapsedTime;
-
-            // set color based on the multiple
             Color32 color;
-            if (TimeMultiple >= 4) color = ColorRed;
-            else if (TimeMultiple >= 3) color = ColorOrange;
-            else if (TimeMultiple >= 2) color = ColorYellow;
-            else color = ColorWhite;
+            if (RealTimeModEnabled)
+            {
+                // don't do color coding when Real Time mod is enabled
+                color = ColorWhite;
+            }
+            else
+            {
+                // define standard elapsed time based on the speed
+                double StandardElapsedTime;
+                if (SimSpeed == 1) StandardElapsedTime = 10.0;
+                else if (SimSpeed == 2) StandardElapsedTime = 5.0;
+                else StandardElapsedTime = 2.5;
+
+                // compute the multiple of elapsed time to standard time
+                double TimeMultiple = ElapsedTime / StandardElapsedTime;
+
+                // set color based on the multiple
+                if (TimeMultiple >= 4) color = ColorRed;
+                else if (TimeMultiple >= 3) color = ColorOrange;
+                else if (TimeMultiple >= 2) color = ColorYellow;
+                else color = ColorWhite;
+            }
 
             return color;
         }
