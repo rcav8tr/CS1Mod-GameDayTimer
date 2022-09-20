@@ -63,6 +63,9 @@
     <None Include="Steam Deployment\PreviewImage.png" />
     <None Include="Steam Deployment\Steam Description.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Steam Deployment\ScreenShot.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
