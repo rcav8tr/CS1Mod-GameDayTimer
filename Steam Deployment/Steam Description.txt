@@ -21,8 +21,6 @@ The Game Day Timer can be displayed or hidden in the options.  There is also an 
 [h1]Compatibility[/h1]
 This mod does not alter game save files in any way and can be safely disabled or unsubscribed at any time.
 
-This mod is compatible with all Down Loadable Content (DLC) packages thru Airports and all Content Creator Packs (CCP) thru Map Pack and Vehicles of the World.  This mod does not require any DLC or CCP to work properly.
-
 This mod has been tested only on Windows but should work on Mac and Linux
 
 This mod is compatible with the [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1420955187]Real Time[/url] mod.  When the Real Time mod is enabled, the behavior of this mod changes as follows:[list]
