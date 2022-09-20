@@ -1,6 +1,6 @@
 Display real time duration of one game day and display frames per second (FPS)
 
-[img=https://i.imgur.com/f2iRAPU.gif]
+[img=https://i.imgur.com/ys8eGPj.png]
 
 [h1]Detailed Description[/h1]
 This mod displays two key measurements related to the performance of Cities:Skylines on your computer:
@@ -8,7 +8,7 @@ This mod displays two key measurements related to the performance of Cities:Skyl
 2.  Frames per second (FPS), which indicates GPU performance.
 
 The real time in seconds is displayed for both the current game day and the previous game day (i.e. the game day most recently ended).  The times are color coded with white indicating near standard duration (i.e. about 10, 5, 2.5 seconds for sim speed 1, 2, 3 respectively) and progressing to yellow, orange, and red as the duration increases.
- 
+
 If your game is running slower than the standard duration, it means your CPU cannot keep up with the requested sim speed.  There is nothing wrong with running a game at a slower duration than standard (I do it all the time), but now you are aware of it.  Changing the sim speed will cause the counters to reset.  After a game pause, the timer will continue where it left off.
 
 The FPS display is updated every second.  The FPS is color coded with white indicating more than 30 FPS and progressing to yellow, orange, and red as the FPS decreases.  Less than 30 FPS starts to become noticeable in the smoothness of the movement of vehicles, citizens, etc.
