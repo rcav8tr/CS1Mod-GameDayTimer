@@ -1,6 +1,6 @@
 Display real time duration of one game day and display frames per second (FPS)
 
-[img=https://i.imgur.com/ys8eGPj.png]
+[img=https://i.imgur.com/sgP8i4s.png]
 
 [h1]Detailed Description[/h1]
 This mod displays two key measurements related to the performance of Cities:Skylines on your computer:
