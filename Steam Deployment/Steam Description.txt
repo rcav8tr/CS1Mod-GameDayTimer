@@ -38,5 +38,5 @@ Game saves initiated either manually or by auto-save while the game is not pause
 Any adversely affected timing will recover on its own within two game days.
 
 [h1]Source Code[/h1]
-Available [url=https://github.com/rcav8tr/CS1-GameDayTimer]here[/url]
+Available [url=https://github.com/rcav8tr/CS1Mod-GameDayTimer]here[/url]
 Change notes [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/1899449152]here[/url].
