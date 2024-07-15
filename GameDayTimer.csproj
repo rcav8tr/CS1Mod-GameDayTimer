@@ -61,10 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Steam Deployment\PreviewImage.png" />
-    <None Include="Steam Deployment\Steam Description.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Steam Deployment\ScreenShot.jpg" />
+    <None Include="Steam Deployment\Steam Description.txt" />
+    <None Include="LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
